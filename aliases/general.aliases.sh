@@ -29,3 +29,6 @@ alias fix_stty='stty sane'                  # fix_stty:     Restore terminal set
 alias fix_term='echo -e "\033c"'            # fix_term:     Reset the conosle.  Similar to the reset command
 alias cic='set completion-ignore-case On'   # cic:          Make tab-completion case-insensitive
 alias src='source ~/.bashrc'                # src:          Reload .bashrc file
+alias cls="printf '\033c'"
+# alias ls="ls -G" # for mac
+# alias ls="ls --color=auto" for linux
