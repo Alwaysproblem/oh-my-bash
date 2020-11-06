@@ -21,12 +21,15 @@ COMMAND_STATUS_PROMPT_SUCCESS_SURFIX=""
 COMMAND_STATUS_PROMPT_SUCCESS_PREFIX="${normal}${green}"
 COMMAND_STATUS_PROMPT_FAILD_SURFIX=""
 COMMAND_STATUS_PROMPT_FAILD_PREFIX="${normal}${red}"
-COMMAND_STATUS_PROMPT_SUCCESS="😁"
-COMMAND_STATUS_PROMPT_FAILD="😵"
+# COMMAND_STATUS_PROMPT_SUCCESS=""
+# COMMAND_STATUS_PROMPT_FAILD=""
+# COMMAND_STATUS_PROMPT_SUCCESS=" 😁"
+# COMMAND_STATUS_PROMPT_FAILD=" 😵"
 # COMMAND_STATUS_PROMPT_SUCCESS="✔"
 # COMMAND_STATUS_PROMPT_FAILD="✘"
 
 PROMPT_RIGHT_PREFIX="${echo_normal}${echo_underline_orange}["
+# PROMPT_RIGHT_PREFIX="${normal}${underline_orange}["
 PROMPT_RIGHT_SURFIX="]"
 
 PROMPT_RIGHT_SHOW_CLOCK=true
@@ -77,11 +80,25 @@ function rightprompt() {
     # set +ex
 }
 
+function auto_blank(){
+  local ff
+  ff=$(scm_prompt_info)
+  if [ -z "$ff" ]; then
+    echo -ne " "
+  else
+    echo -ne ""
+  fi
+}
 
 function prompt_command() {
+  # set -ex
   RETVAL=$?
-  # PS1="${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
-  PS1="\[$(rightprompt)\]${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
+  # PS1="${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) >>> "
+  PYTHON_INFO="${normal}${blue}$(python_version_prompt)"
+  HOST_INFO="${yellow}\u${normal}${cyan}@\h${normal}${purple}"
+  WORK_DIR_INFO="${normal}${underline_green}\w"
+  PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
+  # PS1="\[$(rightprompt)\]${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
 
   # PYTHON_VERSION="$(python_version_prompt_info)"
   # PSR="${PYTHON_VERSION} ${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${green}\w${normal}$(scm_prompt_info)-> "
