@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 #  ---------------------------------------------------------------------------
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    alias ls='ls --color=auto'
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    alias ls='ls -G'
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+        # POSIX compatibility layer and Linux environment emulation for Windows
+elif [[ "$OSTYPE" == "msys" ]]; then
+        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+elif [[ "$OSTYPE" == "win32" ]]; then
+        # I'm not sure this can happen.
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+        # ...
+else
+        # Unknown.
+fi
+
 # Directory Listing aliases
 alias dir='ls -hFx'
 alias l.='ls -d .* --color=tty' # short listing, only hidden files - .*
