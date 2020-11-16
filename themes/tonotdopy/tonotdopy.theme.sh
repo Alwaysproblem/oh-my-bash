@@ -3,6 +3,8 @@
 # NOTE: if you need to `echo` or `printf` some colors please use echo_{colors}
 # for PS1 please user {colors}
 
+echo_dark_gray="\033[2;49;39m"
+
 SCM_THEME_PROMPT_PREFIX=" ${purple}["
 SCM_THEME_PROMPT_SUFFIX=" ${normal}"
 SCM_THEME_PROMPT_DIRTY=" ${red}✗${purple}]"
@@ -13,8 +15,10 @@ CONDAENV_THEME_PROMPT_PREFIX="("
 CONDAENV_THEME_PROMPT_SUFFIX=") "
 VIRTUALENV_THEME_PROMPT_PREFIX="("
 VIRTUALENV_THEME_PROMPT_SUFFIX=") "
-PYTHON_THEME_PROMPT_PREFIX="•"
-PYTHON_THEME_PROMPT_SUFFIX="• "
+PYTHON_THEME_PROMPT_PREFIX="|"
+PYTHON_THEME_PROMPT_SUFFIX="| "
+# PYTHON_THEME_PROMPT_PREFIX="•"
+# PYTHON_THEME_PROMPT_SUFFIX="• "
 
 # THEME_BATTERY_PERCENTAGE_CHECK=true
 COMMAND_STATUS_PROMPT_SUCCESS_SURFIX=""
@@ -28,7 +32,8 @@ COMMAND_STATUS_PROMPT_FAILD_PREFIX="${normal}${red}"
 # COMMAND_STATUS_PROMPT_SUCCESS="✔"
 # COMMAND_STATUS_PROMPT_FAILD="✘"
 
-PROMPT_RIGHT_PREFIX="${echo_normal}${echo_underline_orange}["
+PROMPT_RIGHT_PREFIX="${echo_dark_gray}["
+# PROMPT_RIGHT_PREFIX="${echo_normal}${echo_underline_orange}["
 # PROMPT_RIGHT_PREFIX="${normal}${underline_orange}["
 PROMPT_RIGHT_SURFIX="]"
 
@@ -41,6 +46,12 @@ PROMPT_RIGHT_SHOW_CLOCK=true
 #     echo ""
 #   fi
 # }
+
+print_pad() {
+  # num=$1
+  v=$(printf "%-${COLUMNS}s" "-")
+  echo -ne "${echo_dark_gray}${v// /-}${reset_color}"
+}
 
 function command_status(){
     local sta
@@ -70,13 +81,14 @@ function rightprompt() {
     # set -ex
     local status
     # local command_length
-    tput sc
+    # tput sc
     status=$(command_status)
     command_length=$(command_status_symbol_length)
     content="${PROMPT_RIGHT_PREFIX}$(date +'%Y/%m/%d-%H:%M:%S')${PROMPT_RIGHT_SURFIX}${status}"
     # content="$(echo -e ${PROMPT_RIGHT_PREFIX}$(date +'%Y/%m/%d-%H:%M:%S')${PROMPT_RIGHT_SURFIX}${status})"
+    # printf ""
     printf "%*s" $(($COLUMNS + ${#PROMPT_RIGHT_PREFIX} + ${#PROMPT_RIGHT_SURFIX} + ${#status} + ${command_length} - 2)) $content
-    tput rc
+    # tput rc
     # set +ex
 }
 
@@ -97,8 +109,11 @@ function prompt_command() {
   PYTHON_INFO="${normal}${blue}$(python_version_prompt)"
   HOST_INFO="${yellow}\u${normal}${cyan}@\h${normal}${purple}"
   WORK_DIR_INFO="${normal}${underline_green}\w"
-  PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
-  # PS1="\[$(rightprompt)\]${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
+  PS1="$(print_pad)$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
+  # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
+  # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)» ${reset_color}"
+  
+  # PS1="\[$(rightprompt)\]${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) » "
 
   # PYTHON_VERSION="$(python_version_prompt_info)"
   # PSR="${PYTHON_VERSION} ${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${green}\w${normal}$(scm_prompt_info)-> "
@@ -107,6 +122,8 @@ function prompt_command() {
   # PS1="\[$(rightprompt)\]$(prompt_status)${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
   # PS1="\[$(rightprompt)\]${normal}${blue}$(condaenv_prompt)${normal}${blue}$(virtualenv_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
   # PS1="\[$(rightprompt)\]${normal}${blue}$(conda_prompt_info)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
+  PS2="$(command_status)➜ ${reset_color}"
+  # PS2="» "
 }
 
 safe_append_prompt_command prompt_command
