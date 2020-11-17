@@ -15,10 +15,11 @@ CONDAENV_THEME_PROMPT_PREFIX="("
 CONDAENV_THEME_PROMPT_SUFFIX=") "
 VIRTUALENV_THEME_PROMPT_PREFIX="("
 VIRTUALENV_THEME_PROMPT_SUFFIX=") "
-PYTHON_THEME_PROMPT_PREFIX="|"
-PYTHON_THEME_PROMPT_SUFFIX="| "
-# PYTHON_THEME_PROMPT_PREFIX="•"
+PYTHON_THEME_PROMPT_SUFFIX="» "
+PYTHON_THEME_PROMPT_PREFIX="«"
 # PYTHON_THEME_PROMPT_SUFFIX="• "
+# PYTHON_THEME_PROMPT_PREFIX="•"
+
 
 # THEME_BATTERY_PERCENTAGE_CHECK=true
 COMMAND_STATUS_PROMPT_SUCCESS_SURFIX=""
@@ -89,7 +90,9 @@ function rightprompt() {
     content="${PROMPT_RIGHT_PREFIX}$(date +'%Y/%m/%d-%H:%M:%S')${PROMPT_RIGHT_SURFIX}${status}"
     # content="$(echo -e ${PROMPT_RIGHT_PREFIX}$(date +'%Y/%m/%d-%H:%M:%S')${PROMPT_RIGHT_SURFIX}${status})"
     # printf ""
-    printf "%*s" $(($COLUMNS + ${#PROMPT_RIGHT_PREFIX} + ${#PROMPT_RIGHT_SURFIX} + ${#status} + ${command_length} - 2)) $content
+    # printf "%*s" $(($COLUMNS + ${#PROMPT_RIGHT_PREFIX} + ${#PROMPT_RIGHT_SURFIX} + ${#status} + ${command_length} - 2)) $content
+    tmp=$(printf "%*s" $(($COLUMNS + ${#PROMPT_RIGHT_PREFIX} + ${#PROMPT_RIGHT_SURFIX} + ${#status} + ${command_length} - 2)) $content)
+    echo -ne "${echo_dark_gray}${tmp// /-}${reset_color}"
     # tput rc
     # set +ex
 }
@@ -112,7 +115,7 @@ function prompt_command() {
   HOST_INFO="${yellow}\u${normal}${cyan}@\h${normal}${purple}"
   WORK_DIR_INFO="${normal}${underline_green}\w"
   # PS1="$(print_pad)$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(auto_blank)➜ ${reset_color}"
-  PS1="$(print_pad)$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
+  PS1="$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
   # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
   # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)» ${reset_color}"
   
