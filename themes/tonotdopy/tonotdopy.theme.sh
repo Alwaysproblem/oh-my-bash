@@ -115,7 +115,7 @@ function prompt_command() {
   HOST_INFO="${yellow}\u${normal}${cyan}@\h${normal}${purple}"
   WORK_DIR_INFO="${normal}${underline_green}\w"
   # PS1="$(print_pad)$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(auto_blank)➜ ${reset_color}"
-  PS1="$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
+  PS1="$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)⤏ ${reset_color}"
   # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
   # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)» ${reset_color}"
   
