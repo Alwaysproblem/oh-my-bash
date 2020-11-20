@@ -42,6 +42,8 @@ PROMPT_RIGHT_SURFIX="]"
 
 PROMPT_RIGHT_SHOW_CLOCK=true
 
+PROMPT_SYMBOL="⤏"
+
 # function conda_prompt_info(){
 #   if [ -n "$CONDA_DEFAULT_ENV" ]; then
 #     echo -n "($CONDA_DEFAULT_ENV) "
@@ -115,7 +117,7 @@ function prompt_command() {
   HOST_INFO="${yellow}\u${normal}${cyan}@\h${normal}${purple}"
   WORK_DIR_INFO="${normal}${underline_green}\w"
   # PS1="$(print_pad)$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(auto_blank)➜ ${reset_color}"
-  PS1="$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)⤏ ${reset_color}"
+  PS1="$(rightprompt)\n${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)${PROMPT_SYMBOL} ${reset_color}"
   # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)➜ ${reset_color}"
   # PS1="${PYTHON_INFO}${HOST_INFO} ${WORK_DIR_INFO}${normal}$(scm_prompt_info)$(command_status)$(auto_blank)» ${reset_color}"
   
@@ -128,7 +130,7 @@ function prompt_command() {
   # PS1="\[$(rightprompt)\]$(prompt_status)${normal}${blue}$(python_version_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
   # PS1="\[$(rightprompt)\]${normal}${blue}$(condaenv_prompt)${normal}${blue}$(virtualenv_prompt)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
   # PS1="\[$(rightprompt)\]${normal}${blue}$(conda_prompt_info)${yellow}\u${normal}${cyan}@\h${normal}${purple} ${normal}${underline_green}\w${normal}$(scm_prompt_info) -> "
-  PS2="$(command_status)➜ ${reset_color}"
+  PS2="$(command_status)${PROMPT_SYMBOL} ${reset_color}"
   # PS2="» "
 }
 
